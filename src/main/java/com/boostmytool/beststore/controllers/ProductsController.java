@@ -1,6 +1,7 @@
 package com.boostmytool.beststore.controllers;
 
 import com.boostmytool.beststore.models.Product;
+import com.boostmytool.beststore.models.ProductDto;
 import com.boostmytool.beststore.services.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -23,5 +24,12 @@ public class ProductsController {
         List<Product> products = repo.findAll(Sort.by(Sort.Direction.DESC,"id"));
         model.addAttribute("products",products);
         return "products/index";
+    }
+
+    @GetMapping("/create")
+    public String showCreatePage(Model model){
+        ProductDto productDto = new ProductDto();
+        model.addAttribute("productDto",productDto);
+        return "products/CreateProduct";
     }
 }
