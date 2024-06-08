@@ -119,9 +119,35 @@ public class ProductsController {
                 return "products/EditProduct";
             }
 
-            if (){
+            if (!productDto.getImageFile().isEmpty()){
+                Path oldImagePath = Paths.get("public/image/" + product.getImageFileName());
 
+                try {
+                    Files.delete(oldImagePath);
+                }
+                catch (Exception ex) {
+                    System.out.println("Exception: " + ex.getMessage());
+                }
+
+                MultipartFile image = productDto.getImageFile();
+                Date createdAt = new Date();
+                String storageFileName = createdAt.getTime() + " " + image.getOriginalFilename();
+
+                try (InputStream inputStream = image.getInputStream()) {
+                    Files.copy(inputStream, Paths.get("public/image/" + storageFileName), StandardCopyOption.REPLACE_EXISTING);
+                }
+
+                product.setImageFileName(storageFileName);
             }
+
+            product.setName(productDto.getName());
+            product.setBrand(productDto.getBrand());
+            product.setCategory(productDto.getCategory());
+            product.setPrice(productDto.getPrice());
+            product.setDescription(productDto.getDescription());
+
+            repo.save(product);
+
         } catch (Exception ex){
             System.out.println("Exception: " + ex.getMessage());
         }
