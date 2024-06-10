@@ -9,6 +9,7 @@
 <div class="container">
     <h1 class="text-center my-4">Products</h1>
     <a class="btn btn-primary" href="/products/create">Create Product</a>
+
     <table class="table">
         <thead>
             <tr>
@@ -22,6 +23,7 @@
                 <th>Action</th>
             </tr>
         </thead>
+
         <tbody>
             <tr th:each="product : ${products}">
                 <td th:text="${product.id}"></td>
